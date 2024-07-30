@@ -42,7 +42,7 @@ export function Login() {
     .then((user) => {
       console.log("Login realizado com sucesso")
       console.log(user)
-       navigate('/dashboard', { replace: true })
+       navigate('/', { replace: true })
     }).catch(err => {
       console.log('Erro ao realizar login', err)
     })

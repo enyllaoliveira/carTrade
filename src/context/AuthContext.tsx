@@ -10,7 +10,7 @@ type AuthContextData = {
   signed: boolean;
   loadingAuth: boolean;
   handleInfoUser: ({name, email, uid}: UserProps) => void;
-  user: UserProps| null
+  user: UserProps | null;
 };
 
 interface UserProps {
@@ -18,6 +18,7 @@ interface UserProps {
   name: string | null;
   email: string | null;
 }
+
 export const AuthContext = createContext({} as AuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
@@ -32,11 +33,10 @@ function AuthProvider({ children }: AuthProviderProps) {
           name: user?.displayName,
           email: user?.email,
         });
-        setLoadingAuth(false);
       } else {
         setUser(null);
-        setLoadingAuth(false);
       }
+      setLoadingAuth(false);
     });
 
     return () => {
@@ -58,7 +58,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         signed: !!user,
         loadingAuth,
         handleInfoUser,
-        user
+        user,
       }}
     >
       {children}

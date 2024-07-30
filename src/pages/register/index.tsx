@@ -47,7 +47,7 @@ export function Register() {
           name: data.name,
           email: data.email,
         });
-        console.log("usuário cadastrado com sucesso")
+        alert("usuário cadastrado com sucesso")
         navigate('/dashboard', {
           replace: true,
         })

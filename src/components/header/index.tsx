@@ -14,9 +14,9 @@ export default function Header() {
         </Link>
 
         {!loadingAuth && signed && (
-          <Link to="/dashboard">
+          <Link to="/login">
             <div className="border-2 rounded-full p-1 border-gray-900">
-              <FiUser size={22} color="#000" />
+              <FiLogIn size={22} color="#000" />
             </div>
           </Link>
         )}
@@ -24,7 +24,7 @@ export default function Header() {
         {!loadingAuth && !signed && (
           <Link to="/login">
             <div className="border-2 rounded-full p-1 border-gray-900">
-              <FiLogIn size={22} color="#000" />
+              <FiUser size={22} color="#000" />
             </div>
           </Link>
         )}
