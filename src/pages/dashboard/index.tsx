@@ -1,11 +1,12 @@
+import Container from "../../components/container";
+import { DashboardHeader } from "../../components/painelHeader";
+
 export function Dashboard() {
 
     return (
-      <>
-        <div>
-          <h1> área logada</h1>
-          </div>
-      </>
+      <Container>
+          <DashboardHeader />
+      </Container>
     )
   }
   
