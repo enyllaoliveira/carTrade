@@ -1,11 +1,11 @@
 import Container from "../../../components/container";
 import { DashboardHeader } from "../../../components/painelHeader";
-import { FiUpload } from "react-icons/fi";
+import { FiUpload, FiTrash } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import Input from "../../../components/input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChangeEvent, useContext } from "react";
+import { ChangeEvent, useContext, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { v4 as uuidV4 } from "uuid";
 import { storage } from "../../../services/firebaseConnection";
@@ -16,6 +16,12 @@ import {
   deleteObject,
 } from "firebase/storage";
 
+interface ImageItemsProps {
+  uid: string;
+  name: string;
+  previewUrl: string;
+  url: string;
+}
 const schema = z.object({
   name: z.string().nonempty("O campo nome é obrigatório"),
   model: z.string().nonempty("O modelo é obrigatório"),
@@ -44,13 +50,14 @@ export function New() {
     resolver: zodResolver(schema),
     mode: "onChange",
   });
+  const [carImages, setCarImages] = useState<ImageItemsProps[]>([]);
 
   async function handleFile(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files[0]) {
       const image = e.target.files[0];
       if (image.type === "image/jpeg" || image.type === "image/png") {
         // enviar ao back
-       await handleUpload(image)
+        await handleUpload(image);
       } else {
         alert("Formato de imagem inválido. Use JPG ou PNG.");
         return;
@@ -67,12 +74,17 @@ export function New() {
     const uidImage = uuidV4();
 
     const uploadRef = ref(storage, `images/${currentUid}/${uidImage}`);
-    uploadBytes(uploadRef, image)
-    .then((snapshot) => {
+    uploadBytes(uploadRef, image).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((downLoadUrl) => {
-        console.log('URL da imagem:', downLoadUrl)
-      })
-    })
+        const imageItem = {
+          name: uidImage,
+          uid: currentUid,
+          previewUrl: URL.createObjectURL(image),
+          url: downLoadUrl,
+        };
+        setCarImages((images) => [...images, imageItem]);
+      });
+    });
   }
 
   function onSubmit(data: FormData) {
@@ -93,7 +105,34 @@ export function New() {
               />
             </div>
           </button>
+
+          {carImages.map((image) => (
+            <div
+              key={image.name}
+              className="w-full h-32 flex items-center justify-center relative"
+            >
+              <button
+                onClick={() => {
+                  setCarImages((images) =>
+                    images.filter((img) => img.name !== image.name)
+                  );
+                  deleteObject(
+                    ref(storage, `images/${image.uid}/${image.name}`)
+                  );
+                }}
+                className="absolute "
+              >
+                <FiTrash size={30} color="#black" />
+              </button>
+              <img
+                src={image.previewUrl}
+                className="rounded-lg w-full h-32 object-cover"
+                alt={image.name}
+              />
+            </div>
+          ))}
         </div>
+
         <div className="w-full bg-white p-3 rounded-lg flex flex-col sm:flex-row items-center gap-2 mt-2">
           <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-3">
@@ -138,7 +177,6 @@ export function New() {
                 />
               </div>
             </div>
-
             <div className="flex w-full mb-3 flex-row items-center gap-4">
               <div className="w-full">
                 <p className="mb-2 font-medium"> Telefone/Whatsapp</p>
