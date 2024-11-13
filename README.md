@@ -1,30 +1,45 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# CarTrade
+CarTrade é uma aplicação web voltada à compra e à venda de veículos. A plataforma permite que usuários anunciem veículos, façam buscas e interajam para negociar a venda de automóveis.
 
-Currently, two official plugins are available:
+Ele utiliza o Firebase para autenticação de usuário e como banco de dados em tempo real para consultas filtradas e para armazenamento de imagens.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Funcionalidades
 
-## Expanding the ESLint configuration
+- Cadastro e autenticação de usuário: Permite que os usuários criem contas e façam login, utilizando Firebase Authentication para segurança.
+- Cadastro de veículos: Usuários podem anunciar seus veículos com detalhes como marca, modelo, ano, preço e fotos.
+- Busca e filtros avançados: Sistema de busca com filtros que permitem ao usuário encontrar veículos com base em critérios específicos, como faixa de preço e localização.
+- Interação entre usuários: Contato direto entre compradores e vendedores, facilitando a negociação.
+-Gerenciamento de anúncios: Funções de edição e exclusão para que os usuários possam atualizar seus anúncios conforme necessário.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Stack utilizada
 
-- Configure the top-level `parserOptions` property like this:
+- React, Firebase, TypeScript e Tailwind
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+
+## Rodando localmente
+
+Clone o projeto
+
+```bash
+   git clone https://github.com/enyllaoliveira/carTrade.git
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Entre no diretório do projeto
+
+```bash
+    cd carTrade
+```
+
+Instale as dependências
+
+```bash
+  npm install
+```
+
+Inicie o servidor
+
+```bash
+  npm run dev
+```
+
